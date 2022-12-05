@@ -7,7 +7,7 @@ router.get('/',(req, res) => {
   var sql = "SELECT * FROM member";
   var query = pool.query(sql, (err, results) => {
     if(err) throw err;
-    res.render('product_view',{
+    res.render('member_view',{
       results: results
     });
   });
@@ -16,7 +16,7 @@ router.get('/',(req, res) => {
 //route for insert data
 router.post('/save',(req, res) => {
   var data = {username: req.body.username, password: req.body.password, email: req.body.email};
-  var sql = "INSERT INTO member SET ?";
+  var sql = "insert into member set ?";
   var query = pool.query(sql, data,(err, results) => {
     if(err) throw err;
     res.redirect('/');
@@ -25,16 +25,16 @@ router.post('/save',(req, res) => {
 
 //route for update data
 router.post('/update',(req, res) => {
-  var sql = "UPDATE member SET usernmae='"+req.body.username+"', password='"+req.body.password+"', email='"+req.body.email+"' WHERE id="+req.body.id;
+  var sql = "update member set username='"+req.body.username+"', password='"+req.body.password+"', email='"+req.body.email+"' WHERE id ='"+req.body.id+"'";
   var query = pool.query(sql, (err, results) => {
     if(err) throw err;
     res.redirect('/');
   });
 });
 
-//route for devare data
-router.post('/devare',(req, res) => {
-  var sql = "DEvarE FROM member WHERE id="+req.body.id+"";
+//route for delete data
+router.post('/delete',(req, res) => {
+  var sql = "delete from member where id='"+req.body.id+"'";
   var query = pool.query(sql, (err, results) => {
     if(err) throw err;
       res.redirect('/');
