@@ -36,7 +36,7 @@
   </div>
 
 	<!-- Add New Member Modal-->
-	  <form action="/save" method="post">
+	  <form action="/save" method="post" name="formadd">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
            <div class="modal-content">
@@ -48,20 +48,20 @@
              </div>
              <div class="modal-body">
                <div class="form-group">
-                   <input type="text" name="username" class="form-control" placeholder="Username" required>
+                   <input type="text" name="username" class="form-control addusername" placeholder="Username" required>
                </div>
 
                <div class="form-group">
-                   <input type="text" name="password" class="form-control" placeholder="Password" required>
+                   <input type="text" name="password" class="form-control addpassword" placeholder="Password" required>
                </div>
 
                 <div class="form-group">
-                   <input type="text" name="email" class="form-control" placeholder="Email" required>
+                   <input type="text" name="email" class="form-control addemail" placeholder="Email" required>
                </div>
              </div>
              <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save</button>
+               <button type="submit" id="checkpassword" class="btn btn-primary" onclick="return CheckPassword(document.formadd.password)">Save</button>
              </div>
            </div>
          </div>
@@ -69,7 +69,7 @@
 	 </form>
 
 	 <!-- Edit Member Modal-->
-   <form action="/update" method="post">
+   <form action="/update" method="post" name="formedit">
        <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -95,7 +95,7 @@
             <div class="modal-footer">
               <input type="hidden" name="id" class="id">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Update</button>
+              <button type="submit" class="btn btn-primary" onclick="return CheckPassword(document.formedit.password)">Update</button>
             </div>
           </div>
         </div>
@@ -127,6 +127,20 @@
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script>
+      function CheckPassword(inputtxt) 
+      { 
+        var passw= /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/;
+        
+        if(inputtxt.value.match(passw)) 
+        { 
+          return true;
+        }
+        else
+        { 
+          alert('Password that has at least one lowercase letter, one uppercase letter, one digit, one special character, and is at least eight characters long.')
+          return false;
+        }
+      }
     $(document).ready(function(){
 			//showing data to modal for edit record
       $('#mytable').on('click','.edit',function(){
@@ -134,6 +148,7 @@
         var username = $(this).data('username');
         var password = $(this).data('password');
         var email = $(this).data('email');
+
         $('#EditModal').modal('show');
         $('.username').val(username);
         $('.password').val(password);
@@ -145,8 +160,7 @@
         var id = $(this).data('id');
         $('#DeleteModal').modal('show');
         $('.id2').val(id);
-      });
-
+      });     
     });
 </script>
 </body>
